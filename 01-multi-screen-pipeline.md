@@ -1,6 +1,6 @@
 # Building the multi-screen pipeline
 
-The first milestone was a five-panel arrangement. The next target was six desktop panels arranged in two rows, followed by an optional third row. In this experiment, the physical Mac display counted as one panel. Six total panels therefore required five virtual displays; nine required eight.
+The original SpaceWalker interface stopped at three screens. The first task was to reach five; the next was to build a six-screen grid and add an optional third row for nine. In this experiment, the physical Mac display counted as one panel. Six total panels therefore required five virtual displays; nine required eight.
 
 The local implementation extended an existing installed application in an isolated experimental copy. Its original implementation and modification machinery are excluded from this series. The useful part to share is how the display, capture, geometry, and tracking responsibilities fit together.
 

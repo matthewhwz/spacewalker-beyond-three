@@ -1,8 +1,8 @@
 # SpaceWalker Beyond Three — Exploring 5 to 9 Virtual Displays on macOS
 
-A six-screen desktop can create every display successfully and still put the Mac's desktop on the wrong panel. That happened in this project. Another experimental build displayed the panels but stopped responding to head movement because its separate settings domain was missing device calibration.
+The original SpaceWalker interface on macOS offered layouts of up to **three screens**. This project explored extending that limit to **five screens**, a **six-screen grid (3 × 2)**, and a **nine-screen grid (3 × 3)**.
 
-These notes explain the engineering work behind a personal multi-screen experiment using VITURE SpaceWalker on macOS. The project progressed from five panels to a six-panel grid (3 × 2), then added a nine-panel grid (3 × 3). They describe the design, failures, and validation in fresh prose.
+The work began by exposing an existing five-screen backend, then extended the layout to six and nine panels. These notes explain how display creation, capture, texture mapping, 3D geometry, and head tracking fit together, including the problems encountered along the way.
 
 Throughout the series, five, six, and nine screens mean the total desktop panels, including the physical Mac display. The actual virtual-display counts were:
 
