@@ -1,0 +1,19 @@
+# Documentation-only repository: allow Markdown and this ignore file.
+*
+!*/
+!*.md
+!.gitignore
+
+# Exclude private project records even if Markdown files are copied later.
+/analysis/
+/archive/
+/experiments/
+/notes/
+/original/
+/patches/
+/scripts/
+/working/
+/AGENTS.md
+/CLAUDE.md
+/HANDOFF.md
+/FILES.md
