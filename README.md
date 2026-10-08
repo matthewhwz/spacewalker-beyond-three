@@ -1,39 +1,45 @@
 # SpaceWalker Beyond Three — Exploring 5 to 9 Virtual Displays on macOS
 
-The original SpaceWalker interface on macOS offered layouts of up to **three screens**. This project explored extending that limit to **five screens**, a **six-screen grid (3 × 2)**, and a **nine-screen grid (3 × 3)**.
+**SpaceWalker originally offered up to three screens. I explored taking it to five, six, and nine.**
 
-The work began by exposing an existing five-screen backend, then extended the layout to six and nine panels. These notes explain how display creation, capture, texture mapping, 3D geometry, and head tracking fit together, including the problems encountered along the way.
+A personal macOS experiment: unlock an existing five-screen backend, build a **3 × 2 desktop**, then extend it to **3 × 3**.
 
-Throughout the series, five, six, and nine screens mean the total desktop panels, including the physical Mac display. The actual virtual-display counts were:
+## What I Built
 
-| Layout | Total desktop panels | Additional virtual displays |
+### 3 → 5 → 6 → 9 screens
+
+| Stage | Layout | What changed |
 | --- | --- | --- |
-| Five-screen arrangement | 5 | 4 |
-| Six-screen grid (3 × 2) | 6 | 5 |
-| Nine-screen grid (3 × 3) | 9 | 8 |
+| **3** | Original selectable layouts | The starting limit in the stock interface |
+| **5** | Five-screen arrangement | Exposed an existing backend beyond the visible three-screen options |
+| **6** | **3 × 2 grid** | Added a six-panel layout with the physical Mac desktop at bottom-center |
+| **9** | **3 × 3 grid** | Added a lower row; kept the six-screen preset selectable |
 
-This is an independent experience report, unaffiliated with VITURE. It is a documentation repository, not an application release or a patch distribution. It contains no application binaries, vendor source, decompiled code, disassembly, binary patches, SDK files, or extracted application resources. Product names identify the software used in the experiment.
+The nine-screen arrangement:
 
-## Read the series
+| Upper left | Upper center | Upper right |
+| :---: | :---: | :---: |
+| **Middle left** | **Mac desktop** | **Middle right** |
+| **Lower left** | **Lower center** | **Lower right** |
 
-| Article | What it covers |
-| --- | --- |
-| [01 — Building the multi-screen pipeline](01-multi-screen-pipeline.md) | Display creation, capture, textures, panel geometry, and head pose |
-| [02 — When the right desktop appears on the wrong panel](02-display-mapping.md) | Separating OS IDs, logical sources, textures, and spatial positions |
-| [03 — Arranging panels in 3D](03-panel-geometry.md) | Yaw, pitch, rotation order, touching edges, and extending the grid |
-| [04 — A new app identity can lose its calibration](04-identity-and-calibration.md) | Independent experiments, permissions, settings, and frozen tracking |
-| [05 — What the tests actually proved](05-validation-and-evidence.md) | Native checks, modeled services, negative controls, and hardware limits |
-| [06 — Lessons for the next implementation](06-lessons-for-next-time.md) | An implementation sequence informed by the failures |
+Screen counts include the physical Mac display: five, six, and nine panels require **four, five, and eight virtual displays**, respectively.
 
-## Recorded status
+## How It Works
 
-The engineering records covered here end on October 7, 2026.
+**Desktop source → capture → texture → 3D panel**
 
-- The five-screen experiment and an earlier six-screen build received qualitative hardware acceptance on October 5, 2026.
-- A later calibration fix received confirmation that left/right head movement and recentering worked.
-- The final experimental app retained both six- and nine-screen presets. Native and model checks were recorded for both.
-- Explicit hardware acceptance of the nine-screen preset was not recorded. No quantitative performance benchmark or per-frame head-pose measurement is presented here.
+Each desktop feeds its own textured panel. Head tracking changes the view. Extending to nine meant adding three sources and panels while preserving the original six associations.
 
-The test results belong to particular experimental builds. Earlier hardware feedback does not establish that every later build behaves identically.
+**Reproduction:** [TECHNICAL.md](TECHNICAL.md#reproducing-the-design) gives the implementation sequence for your own renderer. This repository contains documentation; cloning it does not modify SpaceWalker or unlock screens.
 
-For uploading this documentation as a separate repository, see [Publishing these notes](PUBLISHING.md).
+## Technical Challenges
+
+- **Wrong desktop, wrong corner:** the physical display's special capture path needed an explicit render association.
+- **Zero spacing, visible overlaps:** yaw and pitch made upper panels intersect. Touching edges needed a geometry check.
+- **Frozen head tracking:** a separate app identity was missing its same-device calibration. Restoring it fixed initialization.
+
+## Limitations
+
+Five and six screens received qualitative hardware confirmation. Nine passed implementation checks; headset acceptance and measured performance remain unconfirmed.
+
+Independent project, unaffiliated with VITURE. No vendor code, binaries, patches, or private calibration data are included.
